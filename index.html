@@ -1,0 +1,40 @@
+<section id="app">
+   
+</section>
+<script>
+function loadJSON(callback) {
+  var xObj = new XMLHttpRequest();
+  xObj.overrideMimeType("application/json");
+  xObj.open('GET', 'test.json', true);
+  xObj.onreadystatechange = function() {
+      if (xObj.readyState === 4 && xObj.status === 200) {
+          callback(xObj.responseText);
+      }
+  };
+  xObj.send(null);
+}
+
+function init() {
+  loadJSON(function(response) {
+    var json = JSON.parse(response);
+    var count = Object.keys(json).length;
+    for (let i = 0; i < json.length; i++) {
+      var user = json[i];
+
+      newlink = document.createElement('a');
+newlink.innerHTML = user.title;
+newlink.setAttribute('title', user.title);
+newlink.setAttribute('href', user.link);
+document.body.appendChild(newlink);
+lineBreak = document.createElement('br');
+document.body.appendChild(lineBreak);
+
+    const app = document.querySelector('#app');
+    app.innerHTML = '<pre>' + JSON.stringify(json, null, 4) + '</pre>';
+
+    }
+  
+  });
+}
+init();
+</script>
